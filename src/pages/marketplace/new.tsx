@@ -17,7 +17,7 @@ import {
   UploadedBanner,
 } from '@/modules/storefront/editor';
 import ipfsSDK from '@/modules/ipfs/client';
-import { SystemProgram, Transaction } from '@solana/web3.js';
+import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import { NATIVE_MINT } from '@solana/spl-token';
 import { Card, Col, Form, Input, Row, Space, InputNumber, Typography } from 'antd';
 import {
@@ -41,6 +41,13 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { AuctionHouseProgram } from '@holaplex/mpl-auction-house';
+import BN from 'bn.js';
+import {
+  ASSOCIATED_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
+} from '@project-serum/anchor/dist/cjs/utils/token';
+import { Token } from '@solana/spl-token';
+import { createCreateRewardCenterInstruction } from '@holaplex/mpl-listing-rewards';
 
 const MARKETPLACE_ENABLED = process.env.NEXT_PUBLIC_MARKETPLACE_ENABLED === 'true';
 
@@ -100,6 +107,7 @@ export default function New() {
     { name: ['meta', 'name'], value: '' },
     { name: ['meta', 'description'], value: '' },
     { name: ['sellerFeeBasisPoints'], value: 200 },
+    { name: ['meta', 'mint'], value: '' },
     { name: ['creators'], value: [] },
   ]);
 
@@ -132,12 +140,19 @@ export default function New() {
     const logo = popFile(theme.logo[0]);
     const banner = popFile(theme.banner[0]);
     const domain = `${subdomain}.holaplex.market`;
-
     try {
+      const associatedTokenAccount = await Token.getAssociatedTokenAddress(
+        ASSOCIATED_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        new PublicKey(values.meta.mint),
+        wallet.publicKey!
+      );
+
       const [auctionHousPubkey] = await AuctionHouseProgram.findAuctionHouseAddress(
         wallet.publicKey,
         NATIVE_MINT
       );
+
       const storePubkey = await Store.getPDA(wallet.publicKey);
       const storeConfigPubkey = await StoreConfig.getPDA(storePubkey);
 
@@ -186,6 +201,32 @@ export default function New() {
       );
       const [treasuryAccount, _treasuryBump] =
         await AuctionHouseProgram.findAuctionHouseTreasuryAddress(auctionHouse);
+
+      const [rewardCenter, _] = await PublicKey.findProgramAddress(
+        [new BN('reward_center').toBuffer(), auctionHouse.toBuffer()],
+        ASSOCIATED_PROGRAM_ID
+      );
+      const createRewardAccounts = {
+        wallet: wallet.publicKey,
+        mint: new PublicKey(values.meta.mint),
+        associatedTokenAccount,
+        auctionHouse,
+        rewardCenter,
+        associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+      };
+      const createRewardArgs = {
+        collectionOracle: wallet.publicKey!,
+        listingRewardRules: {
+          sellerRewardPayoutBasisPoints: 5000,
+          payoutDivider: 2,
+        },
+      };
+
+      const createRewardInstructions = createCreateRewardCenterInstruction(createRewardAccounts, {
+        createRewardCenterParams: createRewardArgs,
+      });
+
+      transaction.add(createRewardInstructions);
 
       const rentExempt = await connection.getMinimumBalanceForRentExemption(0);
 
@@ -368,6 +409,13 @@ export default function New() {
               </Form.Item>
               <Form.Item name={['sellerFeeBasisPoints']} label="Seller Fee Basis Points">
                 <InputNumber<number> min={0} max={100000} />
+              </Form.Item>
+              <Form.Item
+                name={['meta', 'mint']}
+                rules={[{ required: true, message: 'Please enter a mint address.' }]}
+                label="Provide mint address"
+              >
+                <Input autoFocus />
               </Form.Item>
             </Col>
           </Row>

@@ -2430,6 +2430,17 @@
     "@metaplex-foundation/mpl-core" "0.0.3"
     "@solana/web3.js" "^1.31.0"
 
+"@holaplex/mpl-listing-rewards@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/@holaplex/mpl-listing-rewards/-/mpl-listing-rewards-0.2.0.tgz#5c0e6909e1f60bfd5faf9c650aff01868901841f"
+  integrity sha512-bvUu/7zYPBjtVqklQqB+iNf7RjN6LSSEHnfqstrKYScg61yG8XQ4RDpuBhxbewUe/ripTKO0D4V4FWIfn/KMcg==
+  dependencies:
+    "@metaplex-foundation/beet" "^0.1.0"
+    "@metaplex-foundation/beet-solana" "^0.1.1"
+    "@metaplex-foundation/mpl-core" "^0.0.5"
+    "@solana/web3.js" "^1.35.1"
+    bn.js "^5.2.0"
+
 "@holaplex/solana-web3-tools@^0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@holaplex/solana-web3-tools/-/solana-web3-tools-0.1.8.tgz#d68fd0b1a26971973d296fe24bf269bc0f6bf6ad"
