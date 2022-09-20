@@ -45,10 +45,7 @@ export function AppHeader() {
         <div className="flex items-center justify-between">
           <div className="flex items-center text-white" onClick={handleViewProfile}>
             <Check color="#32D583" className="mr-2" />
-            <div>
-              Wallet connected successfully!{' '}
-              <span className="font-semibold underline">View profile</span>
-            </div>
+            <div>Wallet connected successfully! </div>
           </div>
         </div>,
         {
@@ -70,11 +67,9 @@ export function AppHeader() {
             </a>
           </Link>
           {/* TODO: temp disabled for deploy */}
-          <SearchBar />
         </div>
         {!WHICHDAO && (
           <div className={`hidden min-w-fit flex-row items-center justify-end gap-6 md:flex`}>
-            <DiscoverMenu />
             <Link href="/nfts/new" passHref>
               <a
                 key="create"
@@ -86,16 +81,6 @@ export function AppHeader() {
                 Create
               </a>
             </Link>
-
-            {connectedAndInstalledWallet && (
-              <Link href={'/messages'} passHref>
-                <a className="text-lg font-medium text-gray-300 duration-100 ease-in hover:text-white focus:text-white">
-                  Messages
-                </a>
-              </Link>
-            )}
-
-            {connectedAndInstalledWallet && <DialectNotificationsButton />}
 
             {connectedAndInstalledWallet ? (
               <ProfileImage />

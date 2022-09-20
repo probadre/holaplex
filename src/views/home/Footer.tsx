@@ -31,6 +31,7 @@ const Footer: VFC = () => {
                 <span className="font-medium text-gray-25">Holaplex</span>
               </div>
             </InternalLink>
+            {/* 
             <div className="text-center text-base text-gray-300 md:text-left">
               The only truly open-sourced, decentralized & community-governed NFT platform on
               Solana.
@@ -70,11 +71,11 @@ const Footer: VFC = () => {
                 <li>
                   <InternalLink href="/nfts/new">Mint NFTs</InternalLink>
                 </li>
-                {/* <li>
+              <li>
                 <InternalLink href="/marketplace/new">
                   <TaggedNew>Marketplaces</TaggedNew>
                 </InternalLink>
-              </li> */}
+              </li>
                 <li>
                   <InternalLink href="/storefront/new">New storefront</InternalLink>
                 </li>
@@ -124,6 +125,7 @@ const Footer: VFC = () => {
                 </li>
               </ul>
             </div>
+             */}
           </div>
         </div>
       </footer>

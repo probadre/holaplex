@@ -59,13 +59,6 @@ export const PopoverBoxContents: FC<PopoverBoxContentsProps> = ({ onViewProfile 
             src={profilePictureUrl ?? getPFPFromPublicKey(publicKey)}
             alt="Profile Picture"
           />
-          <Link href={'/profiles/' + publicKey?.toBase58() + '/nfts'} passHref>
-            <a className="ml-5 flex cursor-pointer items-center text-base hover:text-gray-300">
-              <span className="">View profile</span>
-              &nbsp;
-              <ChevronRightIcon className="h-5 w-5" />
-            </a>
-          </Link>
         </div>
       </FirstRow>
       <div className="mt-6 flex w-full items-center justify-between">

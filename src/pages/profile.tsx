@@ -39,12 +39,8 @@ const ProfileLanding = () => {
     return (
       <div className=" -mt-32 h-full max-h-screen">
         <Head>
-          <title>Profile | Holaplex</title>
-          <meta
-            property="description"
-            key="description"
-            content="Your profile for all things Holaplex and Solana"
-          />
+          <title>Profile</title>
+          <meta property="description" key="description" content="Your profile for all things" />
         </Head>
         <div className="container mx-auto -mt-12 -mb-80 flex h-full flex-col items-center justify-center px-6 xl:px-44">
           <EmptyStateCTA

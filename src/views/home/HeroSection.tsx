@@ -21,6 +21,7 @@ export function HeroSection(props: HeroSectionProps): JSX.Element {
 
   return (
     <div>
+      {/*
       <div className="relative h-[450px]">
         <Marquee speed={feedEvents.length ? 40 : 0} gradient={false} pauseOnHover={true}>
           <div
@@ -38,6 +39,7 @@ export function HeroSection(props: HeroSectionProps): JSX.Element {
             ))}
           </div>
         </Marquee>
+
         {!feedEvents.length && (
           <div
             className={clsx(
@@ -54,15 +56,16 @@ export function HeroSection(props: HeroSectionProps): JSX.Element {
           </div>
         )}
       </div>
+              */}
 
       <div className="mt-20 flex flex-col items-center text-center">
         <h1 className="text-3xl font-medium">
           Every NFT on Solana. Every wallet is a store. Everyone is welcome.
         </h1>
-        <Link href="/alpha">
+        <Link href="/nfts/new">
           <a className="mt-10">
             <Button5 className="!py-3 !px-6 !text-2xl !font-medium" v="primary">
-              Get started <ArrowRightIcon className="ml-3 h-8 w-8" />
+              Create Nft <ArrowRightIcon className="ml-3 h-8 w-8" />
             </Button5>
           </a>
         </Link>

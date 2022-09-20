@@ -71,6 +71,7 @@ export default function Home(): JSX.Element {
           data: dataQueryContext.data?.feedEvents,
         }}
       />
+      {/*
       <div className="container mx-auto px-6">
         <FeaturedCollectionsByVolumeSection
           context={{
@@ -103,7 +104,9 @@ export default function Home(): JSX.Element {
           }}
         />
       </div>
+
       <Footer />
+              */}
     </div>
   );
 }

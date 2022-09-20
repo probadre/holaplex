@@ -28,11 +28,7 @@ export const MobileMenu: FC<OnCloseProps> = ({ onCloseClick }) => {
       </MobileHeaderContainer>
       <MenuItems onCloseClick={onCloseClick} />
       <ProfileContainer>
-        {connectedAndInstalledWallet ? (
-          <PopoverBoxContents onViewProfile={onCloseClick} />
-        ) : (
-          <SmallConnectButton />
-        )}
+        <SmallConnectButton />
       </ProfileContainer>
     </Container>
   );
@@ -49,36 +45,12 @@ const MenuItems: FC<OnCloseProps> = ({ onCloseClick }) => {
           Home
         </a>
       </Link>
-      <Link passHref href="/storefront/edit">
-        <a
-          className={`flex h-16 items-center pl-4 text-xl font-medium text-gray-300 hover:text-white`}
-          onClick={onCloseClick}
-        >
-          Edit store
-        </a>
-      </Link>
-      <Link passHref href="/alpha">
-        <a
-          onClick={onCloseClick}
-          className={`flex h-16 items-center pl-4 text-xl font-medium text-gray-300 hover:text-white`}
-        >
-          Alpha
-        </a>
-      </Link>
       <Link passHref href="/nfts/new">
         <a
           onClick={onCloseClick}
           className={`flex h-16 items-center pl-4 text-xl font-medium text-gray-300 hover:text-white`}
         >
           Create
-        </a>
-      </Link>
-      <Link passHref href="/discover">
-        <a
-          onClick={onCloseClick}
-          className={`flex h-16 items-center pl-4 text-xl font-medium text-gray-300 hover:text-white`}
-        >
-          Discover
         </a>
       </Link>
     </ItemsContainer>
