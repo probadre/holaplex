@@ -1,0 +1,136 @@
+diff --git a/node_modules/@holaplex/ui/src/modules/bulk-minter/components/MintInProgress.tsx b/node_modules/@holaplex/ui/src/modules/bulk-minter/components/MintInProgress.tsx
+index 10f914c..63ff24a 100644
+--- a/node_modules/@holaplex/ui/src/modules/bulk-minter/components/MintInProgress.tsx
++++ b/node_modules/@holaplex/ui/src/modules/bulk-minter/components/MintInProgress.tsx
+@@ -308,10 +308,10 @@ export default function MintInProgress({
+                 isDone={transactionStep > TransactionStep.FINALIZING}
+               />
+               <MintStep
+-                text="Signing Holaplex as co-creator"
++                text="Mint"
+                 isActive={transactionStep === TransactionStep.SIGNING}
+                 isDone={transactionStep === TransactionStep.SUCCESS}
+-                failed={transactionStep === TransactionStep.SIGNING_FAILED}
++                failed={transactionStep === TransactionStep.SUCCESS}
+               />
+             </Col>
+           </Row>
+diff --git a/node_modules/@holaplex/ui/src/modules/bulk-minter/components/RoyaltiesCreators.tsx b/node_modules/@holaplex/ui/src/modules/bulk-minter/components/RoyaltiesCreators.tsx
+index 0bd4f6c..fa01621 100644
+--- a/node_modules/@holaplex/ui/src/modules/bulk-minter/components/RoyaltiesCreators.tsx
++++ b/node_modules/@holaplex/ui/src/modules/bulk-minter/components/RoyaltiesCreators.tsx
+@@ -212,19 +212,9 @@ function CreatorsRow(props: CreatorRowProps): JSX.Element {
+ 
+   return (
+     <StyledCreatorsRow>
+-      {isHolaplex ? (
+-        <img height={32} width={32} src={holaplexLogo} alt="holaplex-logo" />
+-      ) : props.charityProps?.imageUrl ? (
+-        <img
+-          height={32}
+-          width={32}
+-          src={props.charityProps.imageUrl}
+-          className="rounded-full"
+-          alt={props.charityProps.displayName + '-logo'}
+-        />
+-      ) : (
++
+         <img height={32} width={32} src={creatorStandinImg} alt="creator" />
+-      )}
++
+       <Paragraph
+         style={{
+           margin: '0 14px 0 6px',
+@@ -232,13 +222,7 @@ function CreatorsRow(props: CreatorRowProps): JSX.Element {
+           fontSize: 14,
+         }}
+       >
+-        {isHolaplex
+-          ? 'Hola Community Fund'
+-          : props.charityProps?.displayName
+-          ? props.charityProps.displayName
+-          : props.creatorAddress.slice(0, 4) +
+-            '...' +
+-            props.creatorAddress.slice(props.creatorAddress.length - 4)}
++
+       </Paragraph>
+       {props.charityProps?.isCharity && (
+         <a href={CHANGE_BASE_URL + props.creatorAddress} target="_blank">
+@@ -259,44 +243,7 @@ function CreatorsRow(props: CreatorRowProps): JSX.Element {
+       {props.isUser && (
+         <Paragraph style={{ opacity: 0.6, marginLeft: 6, fontSize: 14 }}>(you)</Paragraph>
+       )}
+-      {props.charityProps?.isCharity && (
+-        <Paragraph style={{ opacity: 0.6, marginLeft: 6, fontSize: 14 }}>(charity)</Paragraph>
+-      )}
+       <span style={{ marginLeft: 'auto' }}></span>
+-      {isHolaplex && (
+-        <LightText
+-          onClick={() => setIsModalVisible(true)}
+-          style={{ marginRight: 5 }}
+-          className="text-theme-color"
+-        >
+-          Learn more
+-        </LightText>
+-      )}
+-      {showPercentageInput ? (
+-        <StyledPercentageInput
+-          defaultValue={props.share}
+-          min={0}
+-          max={100}
+-          formatter={(value) => `${value}%`}
+-          parser={(value) => parseInt(value?.replace('%', '') ?? '0')}
+-          ref={ref}
+-          onChange={(value) =>
+-            props.updateCreator(props.creatorAddress, value as number, props.charityProps)
+-          }
+-          onKeyDown={(e) => {
+-            if (e.key === 'Enter') {
+-              setShowPercentageInput(false);
+-            }
+-          }}
+-        />
+-      ) : (
+-        <Paragraph
+-          onClick={() => !isHolaplex && setShowPercentageInput(true)}
+-          style={{ marginRight: 5, fontSize: 14, cursor: isHolaplex ? '' : 'pointer' }}
+-        >
+-          {props.share.toFixed(2).replace(/[.,]00$/, '')}%
+-        </Paragraph>
+-      )}
+       {isHolaplex ? (
+         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <g opacity="0.5">
+@@ -360,7 +307,7 @@ if (!process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY) {
+ 
+ export const HOLAPLEX_CREATOR_OBJECT = Object.freeze({
+   address: process.env.NEXT_PUBLIC_HOLAPLEX_HOLDER_PUBKEY ?? '',
+-  share: 2,
++  share: 0,
+ });
+ 
+ interface Props extends Partial<StepWizardChildProps> {
+@@ -607,23 +554,6 @@ export default function RoyaltiesCreators({
+           {creators.length < MAX_CREATOR_LIMIT && (
+             <Row align="middle">
+               <Paragraph style={{ fontWeight: 900, flex: 1 }}>Creators split</Paragraph>
+-              <StyledClearButton
+-                className="text-theme-color"
+-                type="text"
+-                onClick={() => {
+-                  toggleDonationField(true);
+-                  toggleCreatorField(false);
+-                  form.resetFields(['addDonation']);
+-                  if (track) {
+-                    track('Add Charity Initiated', {
+-                      event_category: 'Minter',
+-                      totalItems: filePreviews.length,
+-                    });
+-                  }
+-                }}
+-              >
+-                Add Charity
+-              </StyledClearButton>
+               <StyledClearButton
+                 className="text-theme-color"
+                 type="text"

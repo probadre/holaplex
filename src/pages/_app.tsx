@@ -88,12 +88,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <title>Holaplex | Tools built by creators, for creators, owned by creators</title>
-        <meta
-          property="description"
-          key="description"
-          content="Discover, explore, and collect NFTs from incredible creators on Solana. Tools built by creators, for creators, owned by creators."
-        />
+        <title>MINT NFT ON SOLANA</title>
+        <meta property="description" key="description" content="SOLANA" />
       </Head>
 
       <QueryClientProvider client={queryClient}>
